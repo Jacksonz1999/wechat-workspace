@@ -355,7 +355,13 @@ function readBody(req, limit) {
 }
 function json(res, code, obj) {
   const s = JSON.stringify(obj);
-  res.writeHead(code, { 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': Buffer.byteLength(s) });
+  res.writeHead(code, {
+    'Content-Type': 'application/json; charset=utf-8',
+    'Content-Length': Buffer.byteLength(s),
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, X-Api-Key'
+  });
   res.end(s);
 }
 function checkApi(req) {
@@ -366,6 +372,17 @@ function checkApi(req) {
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://' + (req.headers.host || 'localhost'));
   const p = u.pathname;
+
+  /* ---- CORS 预检 ---- */
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Api-Key',
+      'Access-Control-Max-Age': '86400'
+    });
+    return res.end();
+  }
 
   try {
     /* ---- 微信服务器验证 ---- */
