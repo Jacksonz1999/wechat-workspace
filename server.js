@@ -46,7 +46,7 @@ if (!CFG) process.exit(1);
 
 nlu.setLlm(CFG.llm || null);
 
-// 云平台（Claw Cloud 等）通过 PORT 环境变量指定端口，优先级最高
+// 云平台（Railway / Claw Cloud 等）通过 PORT 环变量指定端口，优先级最高
 const PORT = Number(process.env.PORT) || Number(CFG.port) || 3000;
 const API_KEY = CFG.apiKey || '';
 if (!API_KEY) console.warn('[warn] 未配置 apiKey，/api/* 接口将全部拒绝（这是安全的默认行为）');
