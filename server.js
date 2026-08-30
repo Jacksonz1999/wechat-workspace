@@ -51,6 +51,19 @@ const PORT = Number(process.env.PORT) || Number(CFG.port) || 3000;
 const API_KEY = CFG.apiKey || '';
 if (!API_KEY) console.warn('[warn] 未配置 apiKey，/api/* 接口将全部拒绝（这是安全的默认行为）');
 
+// 版本指纹：用于确认线上跑的到底是哪份代码（/healthz 返回）
+// 优先级：云平台注入的环境变量 > 本地 git > unknown
+const COMMIT = (function () {
+  const fromEnv = process.env.RAILWAY_GIT_COMMIT_SHA ||
+    process.env.GIT_COMMIT || process.env.COMMIT_SHA;
+  if (fromEnv) return String(fromEnv).slice(0, 7);
+  try {
+    return require('child_process')
+      .execSync('git rev-parse --short HEAD', { stdio: ['ignore', 'pipe', 'ignore'] })
+      .toString().trim();
+  } catch (e) { return 'unknown'; }
+})();
+
 /* ---------------- 底部快捷菜单 ---------------- */
 const MENU_DEF = {
   button: [
@@ -423,6 +436,7 @@ const server = http.createServer(async (req, res) => {
         ok: true, users: store.listUsers().length,
         sessions: session.SESSIONS.size,
         llm: !!(CFG.llm && CFG.llm.endpoint),
+        commit: COMMIT,
         time: new Date().toISOString()
       });
     }
