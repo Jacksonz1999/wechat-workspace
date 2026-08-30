@@ -1,0 +1,19 @@
+{
+  "name": "wechat-smart-workspace",
+  "version": "1.0.0",
+  "description": "在微信里用自然语言操作工作台 —— 零依赖 Node 服务",
+  "main": "server.js",
+  "private": true,
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "sim": "node sim.js \"今天要处理\"",
+    "sim:i": "node sim.js",
+    "test": "node test.js && node integration.test.js",
+    "test:unit": "node test.js",
+    "test:integration": "node integration.test.js",
+    "menu": "node -e \"process.env.WB_CONFIG=require('path').join(__dirname,'config.json');require('./server').createMenu().then(()=>console.log('菜单已创建')).catch(e=>console.error('失败:',e.message))\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

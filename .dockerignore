@@ -1,0 +1,12 @@
+config.json
+config.sim.json
+data/
+*.log
+test.js
+integration.test.js
+ocr.test.js
+cnnum.check.js
+sim.js
+README.md
+DEPLOY-CLOUD.md
+.github/

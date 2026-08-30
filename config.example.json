@@ -1,0 +1,43 @@
+{
+  "port": 3000,
+
+  "wechat": {
+    "appId": "wxXXXXXXXXXXXXXXXX",
+    "appSecret": "填写公众号/测试号的 AppSecret",
+    "token": "自己起一个 Token，要和公众平台后台填的一致",
+    "strictVerify": true
+  },
+
+  "apiKey": "自己起一个长随机串，工作台和本服务共用",
+  "allowSim": false,
+
+  "nlu": {
+    "ruleThreshold": 0.5,
+    "llmFallback": true
+  },
+
+  "ocr": {
+    "provider": "none",
+    "customEndpoint": "",
+    "tencent": { "secretId": "", "secretKey": "", "region": "ap-guangzhou", "action": "GeneralAccurateOCR" },
+    "baidu": { "appKey": "", "secretKey": "" },
+    "timeoutMs": 15000
+  },
+
+  "llm": {
+    "endpoint": "",
+    "apiKey": "",
+    "model": "gpt-4o-mini",
+    "timeoutMs": 12000
+  },
+
+  "_说明": {
+    "appId_appSecret": "微信公众平台 → 开发 → 基本配置（测试号在 https://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/index ）",
+    "token": "公众平台 → 基本配置 → 服务器配置里的「令牌(Token)」，必须和这里一致",
+    "apiKey": "调用 /api/* 时放在请求头 X-Api-Key，同时填到工作台「设置 → 微信与同步」里",
+    "endpoint": "服务器公网地址，必须以 https:// 开头且域名已备案，微信只回调 80/443",
+    "llm": "可留空。留空时只用规则识别（零成本、零延迟）；填上则规则拿不准时交给 LLM",
+    "ocr": "provider 可选 none / tencent / baidu / custom。none=不识别（降级手动核对）；tencent/baidu 需填对应密钥；custom 填你自己的 HTTP 地址，返回 {rawText:…} 或完整结构化字段即可",
+    "allowSim": "仅在本地调试时设为 true，生产环境务必保持 false"
+  }
+}
