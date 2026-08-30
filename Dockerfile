@@ -9,7 +9,6 @@ COPY lib ./lib
 
 # 数据目录（云平台把持久卷挂到这里，防止重启丢数据）
 RUN mkdir -p /app/data
-VOLUME /app/data
 
 ENV NODE_ENV=production
 EXPOSE 3000
