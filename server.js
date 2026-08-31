@@ -454,6 +454,7 @@ const server = http.createServer(async (req, res) => {
         sessions: session.SESSIONS.size,
         llm: !!(CFG.llm && CFG.llm.endpoint),
         commit: COMMIT,
+        persist: store.bootInfo(),
         time: new Date().toISOString()
       });
     }
